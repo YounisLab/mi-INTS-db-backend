@@ -1,9 +1,13 @@
 import os
 import ast
 import pandas as pd
+from dotenv import load_dotenv
 from typing import List, Optional
 from fastapi import FastAPI, Query, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+
+# load environment variables from .env file
+load_dotenv()
 
 # load mi-INTS-db data into a pandas dataframe
 db_df = pd.read_excel(os.environ['MI_INTS_DB_FILE'], engine='openpyxl')
