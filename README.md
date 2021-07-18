@@ -4,11 +4,10 @@ The backend for serving mi-INTS-db data.
 
 ## Development
 
-We will be using python virtual envs.
+This project will be using python virtual envs.
 
 ```
 cd mi-INTS-db-backend
-python3 -m venv env
 source env/bin/activate
 ```
 
@@ -17,6 +16,8 @@ This activates the virtual env and dependencies can now be installed local to th
 ```
 pip install -r requirements.txt
 ```
+
+Write the absolute filepaths to your local minor intron data and minor intron coordinate files inside of the .env file. 
 
 To run the backend server in development mode:
 
