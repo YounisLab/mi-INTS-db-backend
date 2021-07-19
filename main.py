@@ -25,10 +25,23 @@ app.add_middleware(
 )
 
 @app.get('/gene')
-def gene_lookup(gene: str, columns: Optional[List[str]] = Query(None)):
-    # standard lookup using first 10 columns of gene data
-    if columns == None:
-      data = db_df.loc[db_df['Gene_name'] == gene].iloc[:, :10]
+def gene_lookup(gene: str, cols: Optional[List[str]] = Query(None)):
+    # standard lookup using default columns of gene data
+    if cols == None:
+      default_cols = [
+        'Gene_name',
+        'Gene_Aliases',
+        'Chromosome',
+        'Gene_start',
+        'Gene_end',
+        'Strand',
+        'Transcript_IDs',
+        'Longest_Transcript',
+        'longest_transcript',
+        'Protein_ID',
+        'MI_number'
+      ]
+      data = db_df.loc[db_df['Gene_name'] == gene].filter(items=default_cols)
         
       if data.empty:
         raise HTTPException(status_code=404, detail='Gene not found')
@@ -36,7 +49,7 @@ def gene_lookup(gene: str, columns: Optional[List[str]] = Query(None)):
       return data.to_dict('records')
     # advanced lookup using specified columns of gene data
     else:
-      data = db_df.loc[db_df['Gene_name'] == gene].filter(items=columns)
+      data = db_df.loc[db_df['Gene_name'] == gene].filter(items=cols)
 
       if data.empty:
         raise HTTPException(status_code=404, detail='Gene not found')
