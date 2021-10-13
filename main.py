@@ -60,8 +60,8 @@ def gene_lookup(gene: str, cols: Optional[List[str]] = Query(None)):
 def coord_lookup(gene: str):
     # lookup and parse data
     data = coord_df.loc[coord_df['gene'] == gene]
-    data['exon_coords'] = data['exon_coords'].str.strip('[]')
-    data['intron_coords'] = data['intron_coords'].str.strip('[]')
+    data['exon_coords'] = data['exon_coords'].str.strip()
+    data['intron_coords'] = data['intron_coords'].str.strip()
 
     if data.empty:
       raise HTTPException(status_code=404, detail='Gene not found')
