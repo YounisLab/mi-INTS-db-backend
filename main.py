@@ -15,7 +15,7 @@ coord_df = pd.read_excel(os.environ['MI_INTS_COORDS_FILE'], engine='openpyxl')
 
 app = FastAPI()
 
-frontend_origin = 'http://localhost:3000'
+frontend_origin = os.getenv('FRONTEND_ORIGIN', 'http://localhost:3000')
 
 app.add_middleware(
     CORSMiddleware,
@@ -42,10 +42,10 @@ def gene_lookup(gene: str, cols: Optional[List[str]] = Query(None)):
         'MI_number'
       ]
       data = db_df.loc[db_df['Gene_name'] == gene].filter(items=default_cols)
-        
+
       if data.empty:
         raise HTTPException(status_code=404, detail='Gene not found')
-          
+
       return data.to_dict('records')
     # advanced lookup using specified columns of gene data
     else:
